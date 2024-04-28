@@ -30,23 +30,6 @@ function findMaxLength(arr) {
 // console.log(findMaxLength([5, 4, 3, 6, 8, 12, 3, 4, 1, 8, 99, 2, 23]))
 
 /**
- * 找出数组里出现超过一半次数的数
- */
-
-const findMaxNumber = (arr) => {
-  let x = 0;
-  let vote = 0;
-  for (let i = 0; i < arr.length; i ++) {
-    if (vote === 0) x = arr[i];
-    vote += (x === arr[i] ? 1 : -1)
-    console.log('x', x, 'vote', vote, 'now', arr[i]);
-  }
-  return x
-};
-
-// console.log(findMaxNumber([1,2,3,3,3,3,3,3,3,3,3,4,5,5,5,5,5,5,5,5,4,3, 3 ,3, 3,3]));
-
-/**
  * @param {number[]} nums
  * @return {number}
  */
