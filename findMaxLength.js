@@ -3,31 +3,40 @@
  *  [5, 4, 3, 6, 8, 12, 3, 4, 1, 8, 99, 107, 2, 23]
  */
 
-function findMaxLength(arr) {
-  // if (arr.length === 0) return []
-  // const res = [[arr[0]]]
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var lengthOfLIS1 = function(nums) {
+  if (nums.length <= 1) return nums.length
+  const res = [nums[0]]
+  function getterIndex(target) {
+      if (res.length  === 1) return 0
+      let left = 0;
+      let right = res.length - 1;
+      while(left <= right) {
+          const mid = Math.floor((left + right) / 2)
+          if ((res[mid] > target && (res[mid - 1] == undefined || res[mid - 1] < target)) || res[mid] === target) {
+            return mid
+          } else if (res[mid] <= target) {
+              left = mid + 1
+          } else {
+              right = mid - 1
+          }
+      }
+  }
+  for (let i = 1; i < nums.length; i += 1) {
+      console.log('res', res, nums[i])
+      if (nums[i] > res[res.length - 1]) {
+        res.push(nums[i])
+      } else {
+        const index = getterIndex(nums[i])
+        res[index] = nums[i]
+      }
+  }
+  return res.length
+};
 
-  // function _updateRes(n) {
-  //   for (let i = res.length - 1; i >= 0; i --) {
-  //     const line = res[i];
-  //     const tail = line[line.length -1]
-  //     if (n > tail) {
-  //       res[i + 1] = [...line, n];
-  //       break
-  //     } else if (n < tail && i === 0) {
-  //       res[0] = [n]
-  //     }
-  //   }
-  // }
-
-  // for (let i = 0; i < arr.length; i ++) {
-  //   const n = arr[i];
-  //   _updateRes(n);
-  // }
-  // return res
-}
-
-// console.log(findMaxLength([5, 4, 3, 6, 8, 12, 3, 4, 1, 8, 99, 2, 23]))
 
 /**
  * @param {number[]} nums
@@ -53,4 +62,4 @@ var lengthOfLIS = function(nums) {
   return res
 };
 
-console.log(lengthOfLIS([10,9,2,5,3,7,101,18]));
+console.log(lengthOfLIS1([10,9,2,5,3,4]));
