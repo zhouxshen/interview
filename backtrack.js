@@ -15,6 +15,30 @@
 
 // 1 2 3  1 
 
+const returnArr = (nums) => {
+  const res = [];
+
+  const used = new Array(nums).fill(false);
+
+  const backTrack = (path) => {
+    if (path.length === nums.length) {
+      res.push(path)
+      return
+    }
+    for (let i = 0; i < nums.length; i += 1) {
+      if (used[i]) continue
+      used[i] = true
+      backTrack([...path, nums[i]])
+      used[i] = false
+    }
+  }
+
+  backTrack([])
+
+  return res;
+}
+console.log(returnArr([1,2,3]))
+
 const dealArr = (arr) => {
   const result = []
   const keys = new Array(arr.length).fill(false);

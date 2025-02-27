@@ -26,3 +26,18 @@ Array.prototype.quickSort = function () {
 }
 
 console.log(init.quickSort());
+
+const quickSort = (nums) => {
+  if (nums.length <= 1) return nums
+  let mid = nums[0]
+  let left = []
+  let right = []
+  for (let i = 1; i < nums.length; i += 1) {
+    if (nums[i] < mid) {
+      left.push(nums[i])
+    } else {
+      right.push(nums[i])
+    }
+  }
+  return [...quickSort(left), mid, ...quickSort(right)]
+}
