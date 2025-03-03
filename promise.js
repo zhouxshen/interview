@@ -1,7 +1,7 @@
 Promise.myAll = (params) => {
   let res, rej;
-  const p = new Promise((reslove, reject) => {
-    res = reslove;
+  const p = new Promise((resolve, reject) => {
+    res = resolve;
     rej = reject;
   });
   let i = 0;
@@ -13,8 +13,8 @@ Promise.myAll = (params) => {
     Promise.resolve(param).then((data) => {
       result[index] = data;
       fullfilled ++;
-      if (fullfilled = i) {
-        res[result];
+      if (fullfilled === i) {
+        res(result);
       }
     }).catch(err => rej(err))
   }
@@ -41,10 +41,10 @@ class SuperTask {
   }
 
   add(task) {
-    return new Promise((reslove, reject) => {
+    return new Promise((resolve, reject) => {
       this.taskList.push({
         task,
-        reslove,
+        resolve,
         reject
       });
       this._run()
@@ -52,14 +52,15 @@ class SuperTask {
   }
 
   _run() {
-    while(this.runningCount < this.maxCount && !!this.taskList.length) {
-      const {task, reslove, reject} = this.taskList.shift()
-      this.runningCount += 1
-      Promise.resolve(task()).then(reslove, reject).finally(() => {
-        this.runningCount -= 1
-        this._run()
-      })
+    if (this.runningCount >= this.maxCount || this.taskList.length === 0) {
+      return;
     }
+    const {task, resolve, reject} = this.taskList.shift()
+    this.runningCount += 1
+    Promise.resolve(task()).then(resolve, reject).finally(() => {
+      this.runningCount -= 1
+      setTimeout(() => this._run(), 0)
+    })
   }
 }
 
@@ -73,3 +74,13 @@ function addTask(time, name) {
     })
 }
 
+const createTask = (name, time) => () =>
+  new Promise((res) => setTimeout(() => {
+    console.log(`Task ${name} completed`);
+    res(name);
+  }, time));
+
+superTask.add(createTask("A", 3000));
+superTask.add(createTask("B", 2000));
+superTask.add(createTask("C", 1000));
+superTask.add(createTask("D", 500));

@@ -63,3 +63,24 @@ var lengthOfLIS = function(nums) {
 };
 
 console.log(lengthOfLIS1([10,9,2,5,3,4]));
+
+//找出给定字符串中出现的最长连续不重复子串的长度 比如输入"344fkjr" 输出"5"
+const findMaxKeepLength = (word) => {
+  let maxLength = 0;
+  let start = 0;
+  let end = 0;
+  console.log('3478894fkjr'.length)
+  for (let i = 0; i < word.length; i += 1) {
+    if (word[i] !== word [i - 1]) {
+      end = i
+      console.log('end', end, start)
+      maxLength = Math.max(maxLength, end - start + 1)
+    } else {
+      start = i
+      console.log('start', start)
+    }
+  }
+  return maxLength
+}
+
+console.log(findMaxLength('34fkjr'))
