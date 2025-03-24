@@ -28,7 +28,14 @@ class SuperTask {
     }
     const {task, resolve, reject} = this.taskList.shift()
     this.runningCount += 1
-    Promise.resolve(task()).then(resolve, reject).finally(() => {
+    const TimeoutPromise = () => {
+      return new Promise((_, reject) => {
+        setTimeout(() => {
+          reject(new Error('time out'))
+        }, 500)
+      })
+    }
+    Promise.race([TimeoutPromise(), Promise.resolve(task())]).then(resolve, reject).finally(() => {
       this.runningCount -= 1
       setTimeout(() => this._run(), 0)
     })

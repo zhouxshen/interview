@@ -89,3 +89,26 @@ const findeItemN = (arr, n) => {
   }
   return ans
 }
+
+
+const deepClone = (obj, hash = new WeakMap()) => {
+  if (typeof obj !== 'object' || obj == null) {
+    return obj
+  }
+  if (hash.has(obj)) {
+    return hash.get(obj)
+  }
+  const target = Array.isArray(obj) ? [] : {};
+  hash.set(obj, target)
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const val = obj[key]
+      if (typeof val === 'object' && val != null) {
+        target[key] = deepClone(val, hash)
+      } else {
+        target[key] = val
+      }
+    }
+  }
+  return target
+}
