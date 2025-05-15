@@ -71,6 +71,27 @@ const quickSort = (nums) => {
   return [...quickSort(left), mid, ...quickSort(right)]
 }
 
+// 原地快速排序
+// 快速排序升级版 不占用额外空间
+const findPivotIndex = (arr, left, right) => {
+  const pivot = arr[right]
+  let i = left - 1;
+  for (let j = left; j < right; j += 1) {
+    if (arr[j] <= pivot) {
+      i += 1
+      [arr[i], arr[j]] = [arr[j], arr[i]]
+    }
+  }
+  [arr[i + 1], arr[right]] = [arr[right], arr[i + 1]]
+  return i + 1
+}
+const quickSortInPlace = (arr, left = 0, right = arr.length - 1) => {
+  if (left >= right) return
+  const pivot = findPivotIndex(arr, left, right)
+  quickSortInPlace(arr, left, pivot - 1)
+  quickSortInPlace(arr, pivot + 1, right)
+}
+
 // 归并排序（Merge Sort）
 // 归并排序通过将数组分成两半，分别排序后再合并。
 
