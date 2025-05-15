@@ -75,21 +75,22 @@ const quickSort = (nums) => {
 // 快速排序升级版 不占用额外空间
 const findPivotIndex = (arr, left, right) => {
   const pivot = arr[right]
-  let i = left - 1;
+  let i = left;
   for (let j = left; j < right; j += 1) {
     if (arr[j] <= pivot) {
-      i += 1
       [arr[i], arr[j]] = [arr[j], arr[i]]
+      i += 1
     }
   }
-  [arr[i + 1], arr[right]] = [arr[right], arr[i + 1]]
-  return i + 1
+  [arr[i], arr[right]] = [arr[right], arr[i]]
+  return i
 }
 const quickSortInPlace = (arr, left = 0, right = arr.length - 1) => {
-  if (left >= right) return
+  if (left >= right) return arr;
   const pivot = findPivotIndex(arr, left, right)
   quickSortInPlace(arr, left, pivot - 1)
   quickSortInPlace(arr, pivot + 1, right)
+  return arr
 }
 
 // 归并排序（Merge Sort）
