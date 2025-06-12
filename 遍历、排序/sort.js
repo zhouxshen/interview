@@ -85,11 +85,12 @@ const findPivotIndex = (arr, left, right) => {
   [arr[i], arr[right]] = [arr[right], arr[i]]
   return i
 }
-const quickSortInPlace = (arr, left = 0, right = arr.length - 1) => {
-  if (left >= right) return arr;
-  const pivot = findPivotIndex(arr, left, right)
-  quickSortInPlace(arr, left, pivot - 1)
-  quickSortInPlace(arr, pivot + 1, right)
+const quickSortInPlace = (arr, left = 0, right = arr.length - 1) => {  
+  if (left < right) {
+    const pivot = findPivotIndex(arr, left, right)
+    quickSortInPlace(arr, left, pivot - 1)
+    quickSortInPlace(arr, pivot + 1, right)
+  }
   return arr
 }
 
