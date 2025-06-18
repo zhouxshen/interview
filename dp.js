@@ -78,10 +78,13 @@ console.log(uniquePathsCmn(3, 7))
 const coinChange = (coins, amount) => {
   const dp = new Array(amount + 1).fill(Infinity);
   dp[0] = 0
-  for (let i = 1; i <= coins; i += 1) {
+  for (let i = 1; i <= amount; i += 1) {
     for (let coin of coins) {
-      dp[i] = Math.min(dp[i], dp[i - coin] + 1)
+      if (i - coin >= 0) dp[i] = Math.min(dp[i], dp[i - coin] + 1)
     }
   }
+  console.log('dp', dp)
   return dp[amount] === Infinity ? -1 : dp[amount]
 }
+
+console.log(coinChange([2], 3))
